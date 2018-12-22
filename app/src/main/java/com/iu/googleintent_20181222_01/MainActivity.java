@@ -13,6 +13,8 @@ public class MainActivity extends BaseActivity {
     EditText phoneNumEdt;
     Button dialBtn;
     Button callBtn;
+    EditText contentEdt;
+    Button smsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,23 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        smsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                사용자가 입력한 폰번을 저장
+                String inputNumber = phoneNumEdt.getText().toString();
+//                사용자가 입력한 내용을 저장
+                String inputContent = contentEdt.getText().toString();
+
+//                SMS 발송
+                Uri uri = Uri.parse(String.format("smsto:%s", inputNumber));
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.putExtra("sms_body", inputContent);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
@@ -66,5 +85,7 @@ public class MainActivity extends BaseActivity {
         phoneNumEdt = findViewById(R.id.phoneNumEdt);
         dialBtn = findViewById(R.id.dialBtn);
         callBtn = findViewById(R.id.callBtn);
+        contentEdt = findViewById(R.id.contentEdt);
+        smsBtn = findViewById(R.id.smsBtn);
     }
 }
